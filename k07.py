@@ -10,10 +10,10 @@ password = "bobbins"
 @app.route("/")
 def hello_world():
     print "\n\n"
-    print "Cookie username: ", request.cookies.get('username')
-    print "Cookie password: ", request.cookies.get('password')
-    if request.cookies.get('username') == username and request.cookies.get('password') == password:
-        greet()
+    print "Cookie username: ", session.get('username')
+    print "Cookie password: ",session.get('password')
+    if session.get('username') == username and session.get('password') == password:
+        return render_template('greet.html',user=session.get('username'))
     else:
         return render_template( 'login.html' )
 
@@ -24,7 +24,16 @@ def greet():
     print "Form password: ", request.args.get('password')
     session['username'] = request.args.get('username')
     session['password'] = request.args.get('password')
-    return render_template( 'greet.html', user = session['username'] )
+    if session.get('username')== username and session.get('password')==password:
+        return render_template( 'greet.html', user = session.get('username') )
+    else:
+        return render_template('error.html')
+
+@app.route("/logout")
+def logout():
+    session.pop("username")
+    session.pop("password")
+    return render_template('login.html')
 
 if __name__ == "__main__":
     app.debug = True;
