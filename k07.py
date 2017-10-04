@@ -9,6 +9,9 @@ password = "bobbins"
 
 @app.route("/")
 def hello_world():
+    print "\n\n"
+    print "Cookie username: ", request.cookies.get('username')
+    print "Cookie password: ", request.cookies.get('password')
     if request.cookies.get('username') == username and request.cookies.get('password') == password:
         greet()
     else:
@@ -16,7 +19,9 @@ def hello_world():
 
 @app.route("/greet")
 def greet():
-    print request.args.get('username')
+    print "\n\n"
+    print "Form username: ", request.args.get('username')
+    print "Form password: ", request.args.get('password')
     session['username'] = request.args.get('username')
     session['password'] = request.args.get('password')
     return render_template( 'greet.html', user = session['username'] )
