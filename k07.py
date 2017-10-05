@@ -36,8 +36,10 @@ def greet():
     session['password'] = request.form.get('password')
     if session.get('username')== username and session.get('password')==password:
         return render_template( 'greet.html', user = session.get('username') )
+    elif session.get('username') != username:
+        return render_template('error.html', error = "Username incorrect!")
     else:
-        return render_template('error.html')
+        return render_template('error.html', error = "Password incorrect!")
 
 @app.route("/logout",methods=['POST','GET'])
 def logout():
